@@ -21,8 +21,12 @@ class Logincontroller {
     // ignore: unnecessary_null_comparison
     if (user != null) {
       if (user.sessionToken != null) {
-        Navigator.pushNamedAndRemoveUntil(
-            context, 'cliente/product/list', (route) => false);
+        if (user.roles!.length > 1) {
+          Navigator.pushNamedAndRemoveUntil(context, 'roles', (route) => false);
+        } else {
+          Navigator.pushNamedAndRemoveUntil(
+              context, user.roles![0].route, (route) => false);
+        }
       }
     }
   }
@@ -37,12 +41,6 @@ class Logincontroller {
       User user = User.fromJson(resp.data);
       sharePr.save('user', user.toJson());
       print('usuariologueado ${user.toJson()}');
-      if (user.roles!.length > 1) {
-        Navigator.pushNamedAndRemoveUntil(context, 'roles', (route) => false);
-      } else {
-        Navigator.pushNamedAndRemoveUntil(
-            context, user.roles![0].route, (route) => false);
-      }
     } else {
       print('el valor del contex es ${context}');
       MySnackbar.show(context, resp.message);
