@@ -1,4 +1,4 @@
 class Environment {
   // ignore: constant_identifier_names
-  static const String API_DELIVERY = "192.168.100.2:3000";
+  static const String API_DELIVERY = "TU DRECCION DE API ";
 }
