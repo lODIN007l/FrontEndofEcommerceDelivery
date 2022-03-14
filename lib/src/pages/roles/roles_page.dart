@@ -28,32 +28,47 @@ class _RolesPageState extends State<RolesPage> {
           title: Text('Seleccione un ROL'),
           backgroundColor: Colors.redAccent,
         ),
-        body: ListView(
-          children: _con.user != null
-              ? _con.user!.roles!.map((Rol rol) {
-                  return _cardRol(rol);
-                }).toList()
-              : [],
+        body: Container(
+          margin:
+              EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.14),
+          child: ListView(
+            children: _con.user != null
+                ? _con.user!.roles!.map((Rol rol) {
+                    return _cardRol(rol);
+                  }).toList()
+                : [],
+          ),
         ));
   }
 
   Widget _cardRol(Rol rol) {
-    return Column(
-      children: [
-        Container(
-          height: 100,
-          child: FadeInImage(
-            placeholder: const AssetImage('assets/img/no-image.png'),
-            image: NetworkImage(rol.image!),
-            fit: BoxFit.cover,
-            fadeInDuration: Duration(milliseconds: 50),
+    return GestureDetector(
+      onTap: () {
+        _con.goToPage(rol.route);
+      },
+      child: Column(
+        children: [
+          const SizedBox(
+            height: 30,
           ),
-        ),
-        Text(
-          rol.name ?? '',
-          style: TextStyle(fontSize: 16, color: Colors.black),
-        )
-      ],
+          Container(
+            height: 100,
+            child: FadeInImage(
+              placeholder: const AssetImage('assets/img/no-image.png'),
+              image: NetworkImage(rol.image!),
+              fit: BoxFit.cover,
+              fadeInDuration: const Duration(milliseconds: 50),
+            ),
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          Text(
+            rol.name ?? '',
+            style: const TextStyle(fontSize: 16, color: Colors.black),
+          )
+        ],
+      ),
     );
   }
 

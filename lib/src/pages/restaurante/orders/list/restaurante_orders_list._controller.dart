@@ -2,13 +2,12 @@ import 'package:delivery_app/src/models/user.dart';
 import 'package:delivery_app/src/utils/shared_pref.dart';
 import 'package:flutter/material.dart';
 
-class ClientListProductControlerr {
+class RestauranteOrdersListController {
   BuildContext? context;
   SharedPref sharPrr = SharedPref();
   GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
   Function? refresh;
   User? user;
-
   Future? init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
