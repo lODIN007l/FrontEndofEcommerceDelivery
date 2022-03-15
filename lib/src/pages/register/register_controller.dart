@@ -1,8 +1,12 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:delivery_app/src/models/responde_api.dart';
 import 'package:delivery_app/src/models/user.dart';
 import 'package:delivery_app/src/provider/users_provider.dart';
 import 'package:delivery_app/src/utils/my_snackbar.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class RegisterControleer {
   TextEditingController emailController = TextEditingController();
@@ -13,10 +17,12 @@ class RegisterControleer {
   TextEditingController confirmPassswordController = TextEditingController();
   late BuildContext context;
   UsersProvider usersProvider = UsersProvider();
-
+  PickedFile? picketF;
+  File? imageFile;
+  Function? refresh;
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
-
+    this.refresh = refresh;
     usersProvider.init(context);
   }
 
@@ -47,6 +53,10 @@ class RegisterControleer {
           context, 'La contraseña debe tener al menos 6 caracteres');
     }
 
+    if (imageFile == null) {
+      MySnackbar.show(context, 'Porfavor ,Seleccione una imagen');
+    }
+
     User user = User(
       email: email,
       name: name,
@@ -54,14 +64,52 @@ class RegisterControleer {
       phone: phone,
       password: password,
     );
-    ResponseApi responseApi = await UsersProvider().create(user);
-    //ResponseApi responseApi = ResponseApi.fromJson(json.decode(res));
-    print(responseApi.toJson());
-    MySnackbar.show(context, responseApi.message);
-    if (responseApi.success) {
-      Future.delayed(Duration(seconds: 3), () {
-        Navigator.pushReplacementNamed(context, 'login');
-      });
+
+    Stream stream = await usersProvider.createwithImage(user, imageFile!);
+    stream.listen((res) {
+      //ResponseApi responseApi = await UsersProvider().create(user);
+      ResponseApi responseApi = ResponseApi.fromJson(json.decode(res));
+      print(responseApi.toJson());
+      MySnackbar.show(context, responseApi.message);
+      if (responseApi.success) {
+        Future.delayed(Duration(seconds: 3), () {
+          Navigator.pushReplacementNamed(context, 'login');
+        });
+      }
+    });
+  }
+
+  Future selectImagen(ImageSource imagenSource) async {
+    picketF = await ImagePicker().getImage(source: imagenSource);
+    if (picketF != null) {
+      imageFile = File(picketF!.path);
     }
+    Navigator.pop(context);
+    refresh!();
+  }
+
+  void showAlertDialog() {
+    Widget gallerybuton = ElevatedButton(
+        onPressed: () {
+          selectImagen(ImageSource.gallery);
+        },
+        child: Text('Galeria'));
+    Widget cameraButton = ElevatedButton(
+        onPressed: () {
+          selectImagen(ImageSource.camera);
+        },
+        child: const Text('Camara'));
+    AlertDialog alertDialog = AlertDialog(
+      title: const Text('Selecciona tu imagen'),
+      actions: [
+        gallerybuton,
+        cameraButton,
+      ],
+    );
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return alertDialog;
+        });
   }
 }
