@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:lottie/lottie.dart';
 
-Logincontroller _con = Logincontroller();
+LoginController _con = new LoginController();
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -14,8 +14,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  Logincontroller _con = new Logincontroller();
-
   @override
   void initState() {
     // TODO: implement initState
@@ -65,9 +63,9 @@ class _LoginPageState extends State<LoginPage> {
                   ),
 
                   //const _BannerImage(),
-                  const _EmailText(),
-                  const _PasswordW(),
-                  const _IngresarBtn(),
+                  _EmailText(),
+                  _PasswordW(),
+                  _IngresarBtn(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -99,6 +97,10 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
+  void refresh() {
+    setState(() {});
+  }
 }
 
 class LoginCircle extends StatelessWidget {
@@ -119,10 +121,6 @@ class LoginCircle extends StatelessWidget {
 }
 
 class _IngresarBtn extends StatelessWidget {
-  const _IngresarBtn({
-    Key? key,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -130,7 +128,7 @@ class _IngresarBtn extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 30),
       child: ElevatedButton(
         onPressed: () {
-          _con.loginM(context);
+          _con.login();
         },
         child: const Text(
           'INGRESAR',
@@ -148,10 +146,6 @@ class _IngresarBtn extends StatelessWidget {
 }
 
 class _PasswordW extends StatelessWidget {
-  const _PasswordW({
-    Key? key,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -160,7 +154,7 @@ class _PasswordW extends StatelessWidget {
           color: MyColors.primaryOpacityColor,
           borderRadius: BorderRadius.circular(30)),
       child: TextField(
-        controller: _con.passwordCtrl,
+        controller: _con.passwordController,
         decoration: InputDecoration(
           border: InputBorder.none,
           contentPadding: const EdgeInsets.all(15),
@@ -177,10 +171,6 @@ class _PasswordW extends StatelessWidget {
 }
 
 class _EmailText extends StatelessWidget {
-  const _EmailText({
-    Key? key,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -189,7 +179,7 @@ class _EmailText extends StatelessWidget {
           color: MyColors.primaryOpacityColor,
           borderRadius: BorderRadius.circular(30)),
       child: TextField(
-        controller: _con.emailCtrl,
+        controller: _con.emailController,
         decoration: InputDecoration(
           border: InputBorder.none,
           contentPadding: const EdgeInsets.all(15),

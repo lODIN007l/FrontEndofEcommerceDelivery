@@ -12,20 +12,20 @@ String userToJson(User data) => json.encode(data.toJson());
 
 class User {
   String? id;
-  String name;
-  String lastname;
-  String email;
-  String phone;
+  String? name;
+  String? lastname;
+  String? email;
+  String? phone;
   String? password;
   String? sessionToken;
   String? image;
   List<Rol>? roles = [];
   User(
       {this.id,
-      required this.email,
-      required this.name,
-      required this.lastname,
-      required this.phone,
+      this.email,
+      this.name,
+      this.lastname,
+      this.phone,
       this.image,
       this.password,
       this.sessionToken,
