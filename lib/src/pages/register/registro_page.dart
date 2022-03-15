@@ -228,7 +228,7 @@ class _RegisterPageState extends State<RegisterPage> {
       width: double.infinity,
       margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
       child: ElevatedButton(
-        onPressed: _con.registroTexto,
+        onPressed: _con.isEnabled ? _con.registroTexto : null,
         child: Text('REGISTRARSE'),
         style: ElevatedButton.styleFrom(
             primary: MyColors.primaryColor,

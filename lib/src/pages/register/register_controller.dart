@@ -7,6 +7,7 @@ import 'package:delivery_app/src/provider/users_provider.dart';
 import 'package:delivery_app/src/utils/my_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:sn_progress_dialog/progress_dialog.dart';
 
 class RegisterControleer {
   TextEditingController emailController = TextEditingController();
@@ -20,10 +21,15 @@ class RegisterControleer {
   PickedFile? picketF;
   File? imageFile;
   Function? refresh;
+
+  ProgressDialog? _progressDialog;
+  bool isEnabled = true;
+
   Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
     usersProvider.init(context);
+    _progressDialog = ProgressDialog(context: context);
   }
 
   void registroTexto() async {
@@ -57,6 +63,9 @@ class RegisterControleer {
       MySnackbar.show(context, 'Porfavor ,Seleccione una imagen');
     }
 
+    _progressDialog?.show(max: 100, msg: 'Espere un momento');
+    isEnabled = false;
+
     User user = User(
       email: email,
       name: name,
@@ -67,6 +76,7 @@ class RegisterControleer {
 
     Stream stream = await usersProvider.createwithImage(user, imageFile!);
     stream.listen((res) {
+      _progressDialog!.close();
       //ResponseApi responseApi = await UsersProvider().create(user);
       ResponseApi responseApi = ResponseApi.fromJson(json.decode(res));
       print(responseApi.toJson());
@@ -75,6 +85,8 @@ class RegisterControleer {
         Future.delayed(Duration(seconds: 3), () {
           Navigator.pushReplacementNamed(context, 'login');
         });
+      } else {
+        isEnabled = true;
       }
     });
   }

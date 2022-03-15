@@ -93,11 +93,14 @@ class _RestuaranteOrdersListState extends State<RestuaranteOrdersList> {
                 Container(
                   margin: const EdgeInsets.only(left: 10),
                   height: 60,
-                  child: const FadeInImage(
-                    placeholder: AssetImage('assets/img/no-image.png'),
-                    image: AssetImage('assets/img/no-image.png'),
+                  child: FadeInImage(
+                    placeholder: const AssetImage('assets/img/no-image.png'),
+                    image: _con.user?.image != null
+                        ? NetworkImage(_con.user!.image!)
+                        : const AssetImage('assets/img/no-image.png')
+                            as ImageProvider,
                     fit: BoxFit.contain,
-                    fadeInDuration: Duration(milliseconds: 50),
+                    fadeInDuration: const Duration(milliseconds: 50),
                   ),
                 )
               ],

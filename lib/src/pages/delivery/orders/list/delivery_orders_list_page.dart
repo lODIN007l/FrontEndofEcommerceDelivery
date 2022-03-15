@@ -94,8 +94,11 @@ class _DeliveryOrdersListPageState extends State<DeliveryOrdersListPage> {
                   margin: const EdgeInsets.only(left: 10),
                   height: 60,
                   child: FadeInImage(
-                    placeholder: const AssetImage('assets/img/no-image.png'),
-                    image: const AssetImage('assets/img/no-image.png'),
+                    placeholder: AssetImage('assets/img/no-image.png'),
+                    image: _con.user?.image != null
+                        ? NetworkImage(_con.user!.image!)
+                        : AssetImage('assets/img/no-image.png')
+                            as ImageProvider,
                     fit: BoxFit.contain,
                     fadeInDuration: const Duration(milliseconds: 50),
                   ),
