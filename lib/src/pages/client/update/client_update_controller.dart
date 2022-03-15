@@ -35,6 +35,11 @@ class ClienteController {
     usersProvider.init(context);
     _progressDialog = ProgressDialog(context: context);
     user = User.fromJson(await _sharedPref.read('user'));
+
+    nameController.text = user?.name ?? '';
+    lastnameController.text = user?.lastname ?? '';
+    phoneController.text = user?.phone ?? '';
+
     refresh();
   }
 

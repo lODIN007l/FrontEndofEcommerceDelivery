@@ -55,7 +55,9 @@ class _ClienUpdatePageState extends State<ClienUpdatePage> {
       child: CircleAvatar(
         backgroundImage: _con.imageFile != null
             ? FileImage(_con.imageFile!)
-            : AssetImage('assets/img/no-image.png') as ImageProvider,
+            : _con.user?.image != null
+                ? NetworkImage('${_con.user?.image}')
+                : AssetImage('assets/img/user_profile.png') as ImageProvider,
         radius: 60,
         backgroundColor: Colors.grey[200],
       ),

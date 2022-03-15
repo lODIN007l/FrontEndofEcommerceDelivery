@@ -154,6 +154,7 @@ class _PasswordW extends StatelessWidget {
           color: MyColors.primaryOpacityColor,
           borderRadius: BorderRadius.circular(30)),
       child: TextField(
+        obscureText: true,
         controller: _con.passwordController,
         decoration: InputDecoration(
           border: InputBorder.none,
