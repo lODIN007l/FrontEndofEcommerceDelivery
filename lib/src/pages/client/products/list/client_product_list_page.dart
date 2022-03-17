@@ -3,20 +3,21 @@ import 'package:delivery_app/src/utils/my_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 
-ClientListProductControlerr _con = ClientListProductControlerr();
-
-class ClienteProductListPage extends StatefulWidget {
-  ClienteProductListPage({Key? key}) : super(key: key);
+class ClientProductsListPage extends StatefulWidget {
+  const ClientProductsListPage({key}) : super(key: key);
 
   @override
-  State<ClienteProductListPage> createState() => _ClienteProductListPageState();
+  _ClientProductsListPageState createState() => _ClientProductsListPageState();
 }
 
-class _ClienteProductListPageState extends State<ClienteProductListPage> {
+class _ClientProductsListPageState extends State<ClientProductsListPage> {
+  ClientProductsListController _con = new ClientProductsListController();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
     SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
       _con.init(context, refresh);
     });
@@ -121,7 +122,7 @@ class _ClienteProductListPageState extends State<ClienteProductListPage> {
           _con.user != null
               ? _con.user!.roles!.length > 1
                   ? ListTile(
-                      onTap: _con.gotoRoles,
+                      onTap: _con.goToRoles,
                       title: const Text(' Seleccionar Rol'),
                       trailing: const Icon(Icons.person_outline),
                     )

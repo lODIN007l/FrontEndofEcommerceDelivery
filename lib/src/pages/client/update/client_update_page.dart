@@ -1,22 +1,22 @@
 import 'package:delivery_app/src/pages/client/update/client_update_controller.dart';
 import 'package:delivery_app/src/utils/my_colors.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 
-class ClienUpdatePage extends StatefulWidget {
+class ClientUpdatePage extends StatefulWidget {
   @override
-  _ClienUpdatePageState createState() => _ClienUpdatePageState();
+  _ClientUpdatePageState createState() => _ClientUpdatePageState();
 }
 
-class _ClienUpdatePageState extends State<ClienUpdatePage> {
-  ClienteController _con = ClienteController();
+class _ClientUpdatePageState extends State<ClientUpdatePage> {
+  ClientUpdateController _con = new ClientUpdateController();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
 
-    SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
+    SchedulerBinding.instance?.addPostFrameCallback((timeStamp) {
       _con.init(context, refresh);
     });
   }
@@ -25,27 +25,23 @@ class _ClienUpdatePageState extends State<ClienUpdatePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Editar Perfil'),
-        backgroundColor: MyColors.primaryColor,
+        title: Text('Editar perfil'),
       ),
       body: Container(
-        width: double.infinity,
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 50,
-              ),
-              _imageUser(),
-              const SizedBox(height: 30),
-              _textFieldName(),
-              _textFieldLastName(),
-              _textFieldPhone(),
-            ],
-          ),
-        ),
-      ),
-      bottomNavigationBar: _buttonActualizar(),
+          width: double.infinity,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(height: 50),
+                _imageUser(),
+                SizedBox(height: 30),
+                _textFieldName(),
+                _textFieldLastName(),
+                _textFieldPhone(),
+              ],
+            ),
+          )),
+      bottomNavigationBar: _buttonLogin(),
     );
   }
 
@@ -56,8 +52,8 @@ class _ClienUpdatePageState extends State<ClienUpdatePage> {
         backgroundImage: _con.imageFile != null
             ? FileImage(_con.imageFile!)
             : _con.user?.image != null
-                ? NetworkImage('${_con.user?.image}')
-                : AssetImage('assets/img/user_profile.png') as ImageProvider,
+                ? NetworkImage(_con.user!.image!)
+                : AssetImage('assets/img/user_profile_2.png') as ImageProvider,
         radius: 60,
         backgroundColor: Colors.grey[200],
       ),
@@ -66,7 +62,7 @@ class _ClienUpdatePageState extends State<ClienUpdatePage> {
 
   Widget _textFieldName() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
       decoration: BoxDecoration(
           color: MyColors.primaryOpacityColor,
           borderRadius: BorderRadius.circular(30)),
@@ -87,7 +83,7 @@ class _ClienUpdatePageState extends State<ClienUpdatePage> {
 
   Widget _textFieldLastName() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
       decoration: BoxDecoration(
           color: MyColors.primaryOpacityColor,
           borderRadius: BorderRadius.circular(30)),
@@ -108,7 +104,7 @@ class _ClienUpdatePageState extends State<ClienUpdatePage> {
 
   Widget _textFieldPhone() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
       decoration: BoxDecoration(
           color: MyColors.primaryOpacityColor,
           borderRadius: BorderRadius.circular(30)),
@@ -128,18 +124,18 @@ class _ClienUpdatePageState extends State<ClienUpdatePage> {
     );
   }
 
-  Widget _buttonActualizar() {
+  Widget _buttonLogin() {
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 30),
+      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 30),
       child: ElevatedButton(
-        onPressed: _con.isEnabled ? _con.registroTexto : null,
-        child: const Text('Actualizar Datos'),
+        onPressed: _con.isEnabled ? _con.updatedUser : null,
+        child: Text('ACTUALIZAR PERFIL'),
         style: ElevatedButton.styleFrom(
             primary: MyColors.primaryColor,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-            padding: const EdgeInsets.symmetric(vertical: 15)),
+            padding: EdgeInsets.symmetric(vertical: 15)),
       ),
     );
   }

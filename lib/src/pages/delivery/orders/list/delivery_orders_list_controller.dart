@@ -6,7 +6,7 @@ class DeliveryOrdersListController {
   BuildContext? context;
   SharedPref sharPrr = SharedPref();
   User? user;
-  GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
+  //GlobalKey<ScaffoldState> keyD = GlobalKey<ScaffoldState>();
   Function? refresh;
   Future? init(BuildContext context, Function refresh) async {
     this.context = context;
@@ -21,7 +21,7 @@ class DeliveryOrdersListController {
   }
 
   void openDrawer() {
-    key.currentState!.openDrawer();
+    //keyD.currentState!.openDrawer();
   }
 
   void gotoRoles() {

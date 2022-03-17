@@ -25,7 +25,6 @@ class _RestuaranteOrdersListState extends State<RestuaranteOrdersList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: _con.key,
       drawer: _drawer(),
       appBar: AppBar(
         backgroundColor: MyColors.primaryColor,

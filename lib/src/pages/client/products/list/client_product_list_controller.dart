@@ -1,35 +1,37 @@
+import 'dart:async';
+
 import 'package:delivery_app/src/models/user.dart';
 import 'package:delivery_app/src/utils/shared_pref.dart';
 import 'package:flutter/material.dart';
 
-class ClientListProductControlerr {
+class ClientProductsListController {
   BuildContext? context;
-  SharedPref sharPrr = SharedPref();
-  GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
+  SharedPref _sharedPref = new SharedPref();
+  GlobalKey<ScaffoldState> key = new GlobalKey<ScaffoldState>();
   Function? refresh;
   User? user;
 
-  Future? init(BuildContext context, Function refresh) async {
+  Future init(BuildContext context, Function refresh) async {
     this.context = context;
     this.refresh = refresh;
-    user = User.fromJson(await sharPrr.read('user'));
+    user = User.fromJson(await _sharedPref.read('user'));
+
     refresh();
-    return null;
   }
 
   void logout() {
-    sharPrr.logout(context!);
+    _sharedPref.logout(context!);
   }
 
   void openDrawer() {
-    key.currentState!.openDrawer();
-  }
-
-  void gotoRoles() {
-    Navigator.pushNamedAndRemoveUntil(context!, 'roles', (route) => false);
+    key.currentState?.openDrawer();
   }
 
   void goToUpdatePage() {
     Navigator.pushNamed(context!, 'cliente/update');
+  }
+
+  void goToRoles() {
+    Navigator.pushNamedAndRemoveUntil(context!, 'roles', (route) => false);
   }
 }

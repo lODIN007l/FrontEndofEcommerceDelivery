@@ -49,6 +49,26 @@ class UsersProvider {
     }
   }
 
+  Future<Stream> updateUser(User user, File imagenFile) async {
+    try {
+      Uri url = Uri.http(_url, '$_api/update');
+      final request = http.MultipartRequest('PUT', url);
+      if (imagenFile != null) {
+        request.files.add(http.MultipartFile(
+            'image',
+            http.ByteStream(imagenFile.openRead().cast()),
+            await imagenFile.length(),
+            filename: basename(imagenFile.path)));
+      }
+      request.fields['user'] = json.encode(user);
+      final response = await request.send();
+      return response.stream.transform(utf8.decoder);
+    } catch (e) {
+      print('Error : ${e}');
+      return null!;
+    }
+  }
+
   Future<ResponseApi> login(String email, String password) async {
     Uri url = Uri.http(_url, '$_api/login');
     String bodyParams = json.encode({'email': email, 'password': password});
@@ -60,5 +80,19 @@ class UsersProvider {
     return responseApi;
 
     // ignore: avoid_print
+  }
+
+  Future<User> getbyID(String id) async {
+    try {
+      Uri url = Uri.http(_url, '$_api/findbyID/$id');
+      Map<String, String> headers = {'Content-type': 'application/json'};
+      final res = await http.get(url, headers: headers);
+      final data = json.decode(res.body);
+      User user = User.fromJson(data);
+      return user;
+    } catch (e) {
+      print('Error :  ${e}');
+      return null!;
+    }
   }
 }

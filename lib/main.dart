@@ -20,9 +20,9 @@ class MyApp extends StatelessWidget {
         'login': (BuildContext context) => const LoginPage(),
         'register': (BuildContext context) => RegisterPage(),
         'roles': (BuildContext context) => RolesPage(),
-        'cliente/update': (BuildContext context) => ClienUpdatePage(),
+        'cliente/update': (BuildContext context) => ClientUpdatePage(),
         'cliente/product/list': (BuildContext context) =>
-            ClienteProductListPage(),
+            ClientProductsListPage(),
         'restaurante/orders/list': (BuildContext context) =>
             RestuaranteOrdersList(),
         'delivery/orders/list': (BuildContext context) =>

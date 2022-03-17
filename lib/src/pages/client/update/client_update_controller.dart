@@ -7,17 +7,15 @@ import 'package:delivery_app/src/provider/users_provider.dart';
 import 'package:delivery_app/src/utils/my_snackbar.dart';
 import 'package:delivery_app/src/utils/shared_pref.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sn_progress_dialog/progress_dialog.dart';
 
-class ClienteController {
-  TextEditingController emailController = TextEditingController();
+class ClientUpdateController {
   TextEditingController nameController = TextEditingController();
   TextEditingController lastnameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmPassswordController = TextEditingController();
-  late BuildContext context;
+  BuildContext? context;
   UsersProvider usersProvider = UsersProvider();
   PickedFile? picketF;
   File? imageFile;
@@ -43,41 +41,41 @@ class ClienteController {
     refresh();
   }
 
-  void registroTexto() async {
+  void updatedUser() async {
     String name = nameController.text;
     String lastname = lastnameController.text;
     String phone = phoneController.text.trim();
 
     if (name.isEmpty || lastname.isEmpty || phone.isEmpty) {
-      MySnackbar.show(context, 'Debes igresar todos los campos');
+      MySnackbar.show(context!, 'Debes ingresar todos los campos');
       return;
     }
 
-    if (imageFile == null) {
-      MySnackbar.show(context, 'Porfavor ,Seleccione una imagen');
-    }
-
-    _progressDialog?.show(max: 100, msg: 'Espere un momento');
+    _progressDialog?.show(max: 100, msg: 'Espere un momento...');
     isEnabled = false;
 
-    User user = User(
-      name: name,
-      lastname: lastname,
-      phone: phone,
-      // password: password,
-    );
+    User myUser = new User(
+        id: user!.id,
+        name: name,
+        lastname: lastname,
+        phone: phone,
+        image: user!.image);
 
-    Stream stream = await usersProvider.createwithImage(user, imageFile!);
-    stream.listen((res) {
+    Stream stream = await usersProvider.updateUser(myUser, imageFile!);
+    stream.listen((res) async {
       _progressDialog!.close();
-      //ResponseApi responseApi = await UsersProvider().create(user);
+
+      // ResponseApi responseApi = await usersProvider.create(user);
       ResponseApi responseApi = ResponseApi.fromJson(json.decode(res));
-      print(responseApi.toJson());
-      MySnackbar.show(context, responseApi.message);
+      Fluttertoast.showToast(msg: responseApi.message);
+
       if (responseApi.success) {
-        Future.delayed(Duration(seconds: 3), () {
-          Navigator.pushReplacementNamed(context, 'login');
-        });
+        user = await usersProvider
+            .getbyID(myUser.id!); // OBTENIENDO EL USUARIO DE LA DB
+        print('Usuario obtenido: ${user!.toJson()}');
+        _sharedPref.save('user', user!.toJson());
+        Navigator.pushNamedAndRemoveUntil(
+            context!, 'cliente/product/list', (route) => false);
       } else {
         isEnabled = true;
       }
@@ -89,7 +87,7 @@ class ClienteController {
     if (picketF != null) {
       imageFile = File(picketF!.path);
     }
-    Navigator.pop(context);
+    Navigator.pop(context!);
     refresh!();
   }
 
@@ -112,7 +110,7 @@ class ClienteController {
       ],
     );
     showDialog(
-        context: context,
+        context: context!,
         builder: (BuildContext context) {
           return alertDialog;
         });

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class RestauranteOrdersListController {
   BuildContext? context;
   SharedPref sharPrr = SharedPref();
-  GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
+  //GlobalKey<ScaffoldState> key = GlobalKey<ScaffoldState>();
   Function? refresh;
   User? user;
   Future? init(BuildContext context, Function refresh) async {
@@ -21,7 +21,7 @@ class RestauranteOrdersListController {
   }
 
   void openDrawer() {
-    key.currentState!.openDrawer();
+    //key.currentState!.openDrawer();
   }
 
   void gotoRoles() {
