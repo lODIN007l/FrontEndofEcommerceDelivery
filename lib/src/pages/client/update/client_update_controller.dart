@@ -34,9 +34,9 @@ class ClientUpdateController {
     _progressDialog = ProgressDialog(context: context);
     user = User.fromJson(await _sharedPref.read('user'));
 
-    nameController.text = user?.name ?? '';
-    lastnameController.text = user?.lastname ?? '';
-    phoneController.text = user?.phone ?? '';
+    nameController.text = user?.name ?? 'N/D';
+    lastnameController.text = user?.lastname ?? 'N/D';
+    phoneController.text = user?.phone ?? 'N/D';
 
     refresh();
   }
@@ -54,7 +54,7 @@ class ClientUpdateController {
     _progressDialog?.show(max: 100, msg: 'Espere un momento...');
     isEnabled = false;
 
-    User myUser = new User(
+    User myUser = User(
         id: user!.id,
         name: name,
         lastname: lastname,

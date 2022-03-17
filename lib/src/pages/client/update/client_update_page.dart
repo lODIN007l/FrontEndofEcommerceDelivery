@@ -25,16 +25,16 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Editar perfil'),
+        title: const Text('Editar perfil'),
       ),
       body: Container(
           width: double.infinity,
           child: SingleChildScrollView(
             child: Column(
               children: [
-                SizedBox(height: 50),
+                const SizedBox(height: 50),
                 _imageUser(),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 _textFieldName(),
                 _textFieldLastName(),
                 _textFieldPhone(),
@@ -53,7 +53,8 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
             ? FileImage(_con.imageFile!)
             : _con.user?.image != null
                 ? NetworkImage(_con.user!.image!)
-                : AssetImage('assets/img/user_profile_2.png') as ImageProvider,
+                : const AssetImage('assets/img/user_profile_2.png')
+                    as ImageProvider,
         radius: 60,
         backgroundColor: Colors.grey[200],
       ),
@@ -62,7 +63,7 @@ class _ClientUpdatePageState extends State<ClientUpdatePage> {
 
   Widget _textFieldName() {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 50, vertical: 5),
+      margin: const EdgeInsets.symmetric(horizontal: 50, vertical: 5),
       decoration: BoxDecoration(
           color: MyColors.primaryOpacityColor,
           borderRadius: BorderRadius.circular(30)),
